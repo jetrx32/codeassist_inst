@@ -10,7 +10,7 @@ wget https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/f
 
 chmod +x cloudflared-linux-amd64
 apt install python3-pip -y
-python3 -m pip install uvicorn flask
+python3 -m pip install uvicorn flask fastapi
 
 nohup ./cloudflared-linux-amd64 tunnel --url http://localhost:3000 > "/root/codeassist/cloudflared.log" 2>&1 &
 nohup python3 fastapi_clf.py  > "/root/codeassist/fastapi_cloudflared.log" 2>&1 &
