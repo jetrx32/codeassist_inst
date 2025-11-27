@@ -29,9 +29,9 @@ python3 -m pip install uvicorn flask fastapi
 
 
 # Запуск тунела и апи для пересылки на тунел по ip port
-nohup ./cloudflared-linux-amd64 tunnel --url http://localhost:3000 > "/root/codeassist/cloudflared.log" 2>&1 &
+nohup ./cloudflared-linux-amd64 tunnel --url http://localhost:4004 > "/root/codeassist/cloudflared.log" 2>&1 &
 nohup python3 fastapi_clf.py  > "/root/codeassist/fastapi_cloudflared.log" 2>&1 &
 
 # Запуск codeassist и api для управления
-tmux new-session -d -s codeassist "export HF_TOKEN='$HFTOKEN' && /root/.local/bin/uv run run.py; bash"
+tmux new-session -d -s codeassist "export HF_TOKEN='$HFTOKEN' && /root/.local/bin/uv run run.py -p 4004; bash"
 tmux new-session -d -s control_api 'python3 tmux_controller_api.py; bash'
