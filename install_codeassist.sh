@@ -33,5 +33,5 @@ nohup ./cloudflared-linux-amd64 tunnel --url http://localhost:3000 > "/root/code
 nohup python3 fastapi_clf.py  > "/root/codeassist/fastapi_cloudflared.log" 2>&1 &
 
 # Запуск codeassist и api для управления
-tmux new-session -d -s codeassist "source ~/.bashrc && export HF_TOKEN='$HFTOKEN' && uv run run.py; bash"
+tmux new-session -d -s codeassist "export HF_TOKEN='$HFTOKEN' && /root/.local/bin/uv run run.py; bash"
 tmux new-session -d -s control_api 'python3 tmux_controller_api.py; bash'
