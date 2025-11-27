@@ -4,6 +4,10 @@ HFTOKEN=$1
 # Остановка и удлаение
 docker stop codeassist-zero-style-ui codeassist-solution-tester codeassist-state-service codeassist-web-ui codeassist-policy-model codeassist-ollama
 docker rm codeassist-zero-style-ui codeassist-solution-tester codeassist-state-service codeassist-web-ui codeassist-policy-model codeassist-ollama
+tmux kill-session -t codeassist
+tmux kill-session -t control_api
+pkill -f "cloudflared-linux-amd64 tunnel"
+pkill -f "python3 fastapi_clf.py"
 rm -rf codeassist
 
 # Усатновка uv
