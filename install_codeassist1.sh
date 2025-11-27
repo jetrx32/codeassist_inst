@@ -6,6 +6,10 @@ docker stop codeassist-zero-style-ui codeassist-solution-tester codeassist-state
 docker rm codeassist-zero-style-ui codeassist-solution-tester codeassist-state-service codeassist-web-ui codeassist-policy-model codeassist-ollama
 rm -rf codeassist
 
+# Усатновка uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+bash
+
 # Копирование репы codeassist
 git clone https://github.com/gensyn-ai/codeassist
 cd codeassist
