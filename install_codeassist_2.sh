@@ -12,7 +12,7 @@ rm -rf codeassist
 
 # Усатновка uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
-bash
+source ~/.bashrc
 
 # Копирование репы codeassist
 git clone https://github.com/gensyn-ai/codeassist
