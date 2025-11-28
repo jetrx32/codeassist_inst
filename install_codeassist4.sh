@@ -17,6 +17,7 @@ source ~/.bashrc
 # Копирование репы codeassist
 git clone https://github.com/gensyn-ai/codeassist
 cd codeassist
+docker network create --subnet=32.32.0.0/16 --gateway=32.32.0.1 codeassist_network
 
 # Установка вспомогоательных скриптов и инструементов
 wget https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/tmux_controller_api.py
