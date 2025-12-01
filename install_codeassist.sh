@@ -27,7 +27,7 @@ wget https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/f
 
 chmod +x cloudflared-linux-amd64
 apt install python3-pip -y
-python3 -m pip install uvicorn flask fastapi
+python3 -m pip install uvicorn flask fastapi psutil
 
 
 # Запуск тунела и апи для пересылки на тунел по ip port
