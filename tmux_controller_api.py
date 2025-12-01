@@ -4,6 +4,7 @@ import sys
 from flask import Flask, request, jsonify
 import time
 import os
+import psutil
 
 app = Flask(__name__)
 
@@ -59,16 +60,50 @@ class TmuxController:
         except Exception as e:
             return {"success": False, "message": f"Исключение: {str(e)}"}
     
+    def is_model_training_running(self):
+        """Проверяет, запущен ли процесс обучения модели"""
+        try:
+            # Ищем процессы python3 с аргументом policy_models.cli.run_tasks train_from_episodes
+            for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                try:
+                    cmdline = proc.info.get('cmdline', [])
+                    if (len(cmdline) >= 4 and 
+                        'python3' in cmdline[0] and 
+                        'policy_models.cli.run_tasks' in cmdline and
+                        'train_from_episodes' in cmdline):
+                        return True
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    continue
+            return False
+        except Exception as e:
+            print(f"Ошибка при проверке процессов: {e}")
+            return False
+    
     def get_session_status(self):
         try:
+            # Сначала проверяем запущен ли процесс обучения модели
+            if self.is_model_training_running():
+                return {"status": "model_training", "message": "Процесс обучения модели запущен"}
+            
+            # Если обучение не запущено, проверяем статус tmux сессии
             if not self.session_exists():
                 return {"status": "not_exists", "message": "Сессия не существует"}
             
+            # Проверяем активность сессии
             cmd = f"tmux list-panes -t {self.session_name} -F '#{{pane_active}}'"
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
             
             if result.returncode == 0:
-                return {"status": "active", "message": "Сессия активна"}
+                # Дополнительная проверка: возможно в сессии что-то запущено
+                cmd_content = f"tmux capture-pane -t {self.session_name} -p"
+                content_result = subprocess.run(cmd_content, shell=True, capture_output=True, text=True)
+                pane_content = content_result.stdout.lower() if content_result.returncode == 0 else ""
+                
+                # Если в содержимом панели есть признаки обучения
+                if any(keyword in pane_content for keyword in ['training', 'epoch', 'loss', 'model', 'policy_models']):
+                    return {"status": "model_training", "message": "Обучение модели запущено в tmux сессии"}
+                else:
+                    return {"status": "active", "message": "Сессия активна"}
             else:
                 return {"status": "exists", "message": "Сессия существует но не активна"}
                 
