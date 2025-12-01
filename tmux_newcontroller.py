@@ -90,7 +90,7 @@ class TmuxController:
                 try:
                     cmdline = proc.info.get('cmdline', [])
                     if (len(cmdline) >= 2 and 
-                        'python3' in cmdline[0] and 
+                        'python' in cmdline[0] and 
                         'policy_models.cli.run_tasks' in cmdline and
                         'train_from_episodes' in cmdline):
                         return True
