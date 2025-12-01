@@ -21,7 +21,7 @@ cd codeassist
 docker network create --subnet=32.32.0.0/16 --gateway=32.32.0.1 codeassist_network
 
 # Установка вспомогоательных скриптов и инструементов
-wget https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/tmux_controller_api.py
+wget -O tmux_controller_api.py https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/tmux_newcontroller.py
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
 wget https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/fastapi_clf.py
 
