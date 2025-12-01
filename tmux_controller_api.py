@@ -62,15 +62,19 @@ class TmuxController:
     
     def is_model_training_running(self):
         """Проверяет, запущен ли процесс обучения модели"""
+#        print("Проеверка  запущена")
         try:
             # Ищем процессы python3 с аргументом policy_models.cli.run_tasks train_from_episodes
             for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+#                print(proc)
                 try:
                     cmdline = proc.info.get('cmdline', [])
-                    if (len(cmdline) >= 4 and 
+                    print(cmdline)
+                    if (len(cmdline) >= 2 and 
                         'python3' in cmdline[0] and 
                         'policy_models.cli.run_tasks' in cmdline and
                         'train_from_episodes' in cmdline):
+                        print(cmdline)
                         return True
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     continue
@@ -100,10 +104,10 @@ class TmuxController:
                 pane_content = content_result.stdout.lower() if content_result.returncode == 0 else ""
                 
                 # Если в содержимом панели есть признаки обучения
-                if any(keyword in pane_content for keyword in ['training', 'epoch', 'loss', 'model', 'policy_models']):
-                    return {"status": "model_training", "message": "Обучение модели запущено в tmux сессии"}
-                else:
-                    return {"status": "active", "message": "Сессия активна"}
+#                if any(keyword in pane_content for keyword in ['training', 'epoch', 'loss', 'model', 'policy_models']):
+#                    return {"status": "model_training", "message": "Обучение модели запущено в tmux сессии"}
+#                else:
+                return {"status": "active", "message": "Сессия активна"}
             else:
                 return {"status": "exists", "message": "Сессия существует но не активна"}
                 
