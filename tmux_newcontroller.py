@@ -89,7 +89,12 @@ class TmuxController:
             for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
                 try:
                     cmdline = proc.info.get('cmdline', [])
-                    if (len(cmdline) >= 2 and 
+                    #print(cmdline)
+                    try:
+                        cmdlen = len(cmdline)
+                    except:
+                        cmdlen=0
+                    if (cmdlen >= 2 and 
                         'python' in cmdline[0] and 
                         'policy_models.cli.run_tasks' in cmdline and
                         'train_from_episodes' in cmdline):
