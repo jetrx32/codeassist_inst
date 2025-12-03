@@ -28,7 +28,7 @@ cd web-ui
   --build-arg NEXT_PUBLIC_SIMULATION_MODE="false" \
   --build-arg NEXT_PUBLIC_ZERO_STYLE_MODE="false" \
   -t gensynai/codeassist-web-ui:main .
-
+cd ..
 # Установка вспомогоательных скриптов и инструементов
 wget -O tmux_controller_api.py https://raw.githubusercontent.com/jetrx32/codeassist_inst/refs/heads/main/tmux_newcontroller.py
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
